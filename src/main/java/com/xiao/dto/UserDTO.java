@@ -7,11 +7,9 @@ import lombok.Data;
 
 @Data
 public class UserDTO {
-
-    //private Long id;
-    //private String userName;
+    private Long id;
+    private String userName;
     private String userAccount;
-    //private String userAvatar;
+    private String userAvatar;
     private String userRole;
-
 }

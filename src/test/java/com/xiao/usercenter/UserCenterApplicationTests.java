@@ -18,8 +18,8 @@ class UserCenterApplicationTests {
     @Test
     void testUserRegister() {
         User user = new User();
-        user.setUserAccount("eric9527");
-        user.setUserPassword("eric9527");
+        user.setUserAccount("xiaoxiao");
+        user.setUserPassword("Xx123456");
         Result result = userService.register(user);
         System.out.println(result);
     }
@@ -32,6 +32,14 @@ class UserCenterApplicationTests {
         user.setUserRole("admin");
         Result login = userService.loginByAccount(user, null);
         System.out.println(login);
+    }
+
+    @Test
+    void testQuery(){
+        User user = new User();
+        user.setUserAccount("eric9527");
+        User one = userService.query().eq("userAccount", "eric9527").one();
+        System.out.println(one);
     }
 
 }

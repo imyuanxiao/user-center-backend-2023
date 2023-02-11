@@ -1,18 +1,26 @@
 package com.xiao.service;
 
+import com.xiao.dto.Result;
 import com.xiao.entity.User;
 import com.baomidou.mybatisplus.extension.service.IService;
 
-import javax.servlet.http.HttpSession;
-import com.xiao.dto.Result;
+import javax.servlet.http.HttpServletRequest;
 
 /**
 * @author Administrator
-* @description 针对表【user】的数据库操作Service
-* @createDate 2023-02-06 11:01:06
+* @description 针对表【user(用户)】的数据库操作Service
+* @createDate 2023-02-10 22:28:22
 */
 public interface UserService extends IService<User> {
-    Result loginByAccount(User user, HttpSession httpSession);
+    Result currentUser();
+
     Result register(User user);
 
+    Result loginByAccount(User user, HttpServletRequest request);
+
+    Result loginByPhone(String phone, String captcha);
+
+    Result loginOut(HttpServletRequest request);
+
+    Result getCaptcha(String phone);
 }
