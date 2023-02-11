@@ -74,6 +74,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
             user.setUserName(RandomUtil.randomString(8));
             user.setUserRole("user");
             user.setGender(1);
+            user.setPhone(phone);
             boolean save = save(user);
             if(!save){
                 return  Result.fail("登录失败，请稍后再试！");
@@ -182,15 +183,37 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         return Result.ok("验证码已发送！验证码为：" + random);
     }
 
+    @Override
+    public Result updateAccount(User user) {
+        if(!checkFormat(user) || !PhoneUtil.isPhone(user.getPhone())){
+            return Result.fail("更新失败，数据格式不正确！");
+        }
+        User one = query().eq("id", user.getId()).one();
+        if(one == null){
+            return Result.fail("用户不存在！");
+        }
+        //用户存在，更新信息
+        user.setUserPassword(SecureUtil.md5(user.getUserPassword()));
+        boolean flag = updateById(user);
+        if(!flag){
+            return Result.fail("更新失败！");
+        }
+        String token = saveTokenToRedis(user);
+        return Result.ok(token);
+    }
+
     private boolean checkFormat(User user){
         // 1. username valid?
         String userAccount = user.getUserAccount();
-        if(!VaildUtils.checkUserAccount(userAccount)){
+        if(StrUtil.isNotBlank(userAccount) && !VaildUtils.checkUserAccount(userAccount)){
             return false;
         }
         // 2. password valid?
         String userPassword = user.getUserPassword();
-        return VaildUtils.checkPassword(userPassword);
+        if(StrUtil.isNotBlank(userPassword) && !VaildUtils.checkPassword(userPassword)){
+            return false;
+        }
+        return true;
     }
 
 }

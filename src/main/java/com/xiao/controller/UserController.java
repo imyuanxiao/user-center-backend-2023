@@ -18,7 +18,7 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @GetMapping("currentUser")
+    @GetMapping("/currentUser")
     public Result currentUser(){
         return userService.currentUser();
     }
@@ -49,5 +49,9 @@ public class UserController {
         return userService.getCaptcha(phone);
     }
 
+    @PostMapping("account/update")
+    public Result updateAccount(@RequestBody User user,  HttpServletRequest request){
+        return userService.updateAccount(user);
+    }
 
 }

@@ -23,4 +23,6 @@ public interface UserService extends IService<User> {
     Result loginOut(HttpServletRequest request);
 
     Result getCaptcha(String phone);
+
+    Result updateAccount(User user);
 }
