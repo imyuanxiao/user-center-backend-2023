@@ -1,13 +1,20 @@
 package com.xiao.controller;
 
+import cn.hutool.json.JSONArray;
+import cn.hutool.json.JSONUtil;
+import com.xiao.dto.QueryUserListDto;
 import com.xiao.dto.Result;
 import com.xiao.entity.User;
 import com.xiao.service.UserService;
 import io.swagger.annotations.Api;
+import org.apache.ibatis.annotations.Delete;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 @CrossOrigin
 @RestController
@@ -23,10 +30,9 @@ public class UserController {
         return userService.currentUser();
     }
 
-
-    @PostMapping("/register")
-    public Result register(@RequestBody User user){
-        return userService.register(user);
+    @PostMapping("/userList")
+    public Result userList(@RequestBody QueryUserListDto queryUserListDto, HttpServletRequest request){
+        return userService.userList(queryUserListDto, request);
     }
 
     @PostMapping("/login/account")
@@ -35,7 +41,7 @@ public class UserController {
     }
 
     @GetMapping("/login/phone")
-    public Result loginByPhone(@RequestParam("mobile") String phone, @RequestParam("captcha") String captcha){
+    public Result loginByPhone(@RequestParam("phone") String phone, @RequestParam("captcha") String captcha){
         return userService.loginByPhone(phone, captcha);
     }
 
@@ -50,8 +56,23 @@ public class UserController {
     }
 
     @PostMapping("account/update")
-    public Result updateAccount(@RequestBody User user,  HttpServletRequest request){
+    public Result updateAccount(@RequestBody User user){
         return userService.updateAccount(user);
+    }
+
+    @PutMapping("/update")
+    public Result updateUser(@RequestBody User user){
+        return userService.updateUser(user);
+    }
+
+    @PostMapping("/add")
+    public Result addUser(@RequestBody User user){
+        return userService.addUser(user);
+    }
+
+    @DeleteMapping("/delete")
+    public Result deleteUser(@RequestBody String jsonStr, HttpServletRequest request){
+        return userService.deleteUser(jsonStr, request);
     }
 
 }

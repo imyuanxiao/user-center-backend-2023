@@ -1,5 +1,6 @@
 package com.xiao.service;
 
+import com.xiao.dto.QueryUserListDto;
 import com.xiao.dto.Result;
 import com.xiao.entity.User;
 import com.baomidou.mybatisplus.extension.service.IService;
@@ -14,8 +15,6 @@ import javax.servlet.http.HttpServletRequest;
 public interface UserService extends IService<User> {
     Result currentUser();
 
-    Result register(User user);
-
     Result loginByAccount(User user, HttpServletRequest request);
 
     Result loginByPhone(String phone, String captcha);
@@ -25,4 +24,12 @@ public interface UserService extends IService<User> {
     Result getCaptcha(String phone);
 
     Result updateAccount(User user);
+
+    Result userList(QueryUserListDto queryUserListDto, HttpServletRequest request);
+
+    Result updateUser(User user);
+
+    Result addUser(User user);
+
+    Result deleteUser(String jsonStr, HttpServletRequest request);
 }
