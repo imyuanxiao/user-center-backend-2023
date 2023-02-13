@@ -199,7 +199,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
             queryWrapper.eq("userRole", queryUserListDto.getUserRole());
         }
         if(queryUserListDto.getUserPhone() != null){
-            queryWrapper.like("userRole", queryUserListDto.getUserPhone() );
+            queryWrapper.like("userPhone", queryUserListDto.getUserPhone() );
         }
         Page<User> page = new Page<>(queryUserListDto.getCurrent() , queryUserListDto.getPageSize() );
         List<User> records = page(page, queryWrapper).getRecords();
